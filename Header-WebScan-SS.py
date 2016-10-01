@@ -77,6 +77,7 @@ def Menu():
 def Nmap_SS(host_IP):
     print ("Scan is starting for "+str(host_IP)+"...")
     #port_List=[80,81,280,443,591,593,832,981,1311,2480,3181,4444,4445,4567,4711,4712,5104,5280,5800,5988,5989,7000,7001,7002,8008,8011,8012,8013,8042,8069,8080,8081,8243,8280,8281,8531,8887,8888,9080,9443,11371,12443,16080,18091,18092,21011,21012,21021,21022]
+    #os.system("nmap "+ host_IP + " > "+ host_IP +"-Nmap.txt")
     port_List=[80,443]
     os.system("nmap -p 80,443 "+ host_IP + " > "+ host_IP +"-Nmap.txt")
     with open(str(host_IP)+"-Nmap.txt", 'r') as TextFile:
