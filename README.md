@@ -8,4 +8,4 @@ It scans given IP range and takes screenshots if it's available. Also, it takes 
 
 ## Screenshot:
 
-![alt tag](http://emreovunc.com/projects/Web%20Services%20Headers-SS.png)
+![alt tag](https://emreovunc.com/projects/Web%20Services%20Headers-SS.png)
