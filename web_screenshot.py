@@ -8,6 +8,7 @@ from os         import mkdir
 from os         import rmdir
 from os         import getcwd
 from os         import remove
+from os 		import listdir
 from sys        import argv
 from sys        import exit
 from time       import sleep
@@ -21,6 +22,13 @@ from warnings   import filterwarnings
 
 filterwarnings('ignore')
 
+folders = []
+
+def removeempty():
+	for folder in folders:
+		if len(listdir(folder) ) == 0:
+			rmdir(folder)
+
 
 def getenv(ip):
     date = str(dt.now()).split(' ')[0].split("-")[0] + str(dt.now()).split(' ')[0].split("-")[1] + str(dt.now()).split(' ')[0].split("-")[2]
@@ -30,14 +38,18 @@ def getenv(ip):
     foldername = ip + "_" + date + "_" + time
 
     if not path.exists("scans"):
-    	mkdir(scans)
+    	mkdir("scans")
 
-    if path.exists("scans/" + foldername):
-        rmdir("scans/" + )
+    fullpath = "scans/" + foldername
+
+    if path.exists(fullpath):
+        rmdir(fullpath)
     else:
-        mkdir("scans/" + )
+        mkdir(fullpath)
 
-    return "scans/" + foldername
+    folders.append(fullpath)
+
+    return fullpath
 
 
 def portcheck(ip, folder):
@@ -93,9 +105,9 @@ def menu():
     if len(argv) == 1:
         parser.print_help()
         exit(1)
-
     args = parser.parse_args()
     portcheck(args.IP, getenv(args.IP))
+    removeempty()
 
 
 menu()
