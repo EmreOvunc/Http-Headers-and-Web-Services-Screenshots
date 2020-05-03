@@ -29,12 +29,15 @@ def getenv(ip):
            str(dt.now()).split(' ')[1].split(":")[2].split('.')[0]
     foldername = ip + "_" + date + "_" + time
 
-    if path.exists(foldername):
-        rmdir(foldername)
-    else:
-        mkdir(foldername)
+    if not path.exists("scans"):
+    	mkdir(scans)
 
-    return foldername
+    if path.exists("scans/" + foldername):
+        rmdir("scans/" + )
+    else:
+        mkdir("scans/" + )
+
+    return "scans/" + foldername
 
 
 def portcheck(ip, folder):
