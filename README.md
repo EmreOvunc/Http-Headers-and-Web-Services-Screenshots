@@ -12,7 +12,7 @@ It supports Python3 now :)
 git clone https://github.com/EmreOvunc/Http-Headers-and-Web-Services-Screenshots.git
 cd Http-Headers-and-Web-Services-Screenshots
 pip3 install -r requirements # or sudo pip3 install virtualenv && source myvenv/bin/activate
-python3 web_screenshot.py
+python3 web_screenshot.py [IP]
 ```
 
 ## Screenshot:
