@@ -24,14 +24,14 @@ filterwarnings('ignore')
 
 folders = []
 
-def removeempty():
+def removeempty(folders):
     if len(folders) != 0:
     	for folder in folders:
     		if len(listdir(folder) ) == 0:
     			rmdir(folder)
 
 
-def getenv(ip):
+def getenv(ip, folders):
     date = str(dt.now()).split(' ')[0].split("-")[0] + str(dt.now()).split(' ')[0].split("-")[1] + str(dt.now()).split(' ')[0].split("-")[2]
     time = str(dt.now()).split(' ')[1].split(":")[0] + "_" + \
            str(dt.now()).split(' ')[1].split(":")[1] + "_" + \
@@ -56,36 +56,50 @@ def getenv(ip):
 def portcheck(ip, folder):
     portlist = [80, 443, 8000, 8080, 8443, 10000]
     for port in portlist:
-        soc_port = socket(AF_INET, SOCK_STREAM)
-        soc_port.settimeout(0.5)
-        sleep(0.05)
-        result = soc_port.connect_ex((ip, port))
-        if result == 0:
-            ss(ip, port, folder)
-        else:
+        try:
+            soc_port = socket(AF_INET, SOCK_STREAM)
+            soc_port.settimeout(1)
+            soc_port.connect((ip, port))
+            soc_port.close()
+            sleep(0.05)
+            result = 1
+        except:
+            result = 0
+        finally:
+            if result == 1:
+                ss(ip, port, folder)
+
+
+def save_ss(driver, ip, port, folder, ssl):
+    if ssl == 0:
+        try:        
+            ss_url = "http://" + ip + ":" + str(port)
+            driver.get(ss_url)
+            screenshot_name = str(ip) + ":" + str(port) + "-http.png"
+            driver.save_screenshot(folder + "/" + screenshot_name)
+
+            if path.exists(folder + "/" + screenshot_name) and path.getsize(folder + "/" + screenshot_name) < 14000:
+                remove(folder + "/" + screenshot_name)
+
+            save_ss(driver, ip, port, folder, 1)
+
+        except:
+            save_ss(driver, ip, port, folder, 1)
+
+    else:
+        try:
+            ss_url = "https://" + ip + ":" + str(port)
+            driver.get(ss_url)
+            screenshot_name = str(ip) + ":" + str(port) + "-https.png"
+            driver.save_screenshot(folder + "/" + screenshot_name)
+
+            if path.exists(folder + "/" + screenshot_name) and path.getsize(folder + "/" + screenshot_name) < 14000:
+                remove(folder + "/" + screenshot_name)
+
+            driver.quit()
+        
+        except:
             pass
-
-
-def save_ss(driver, ip, port, folder):
-    #HTTP
-    ss_url = "http://" + ip + ":" + str(port)
-    driver.get(ss_url)
-    screenshot_name = str(ip) + ":" + str(port) + "-http.png"
-    driver.save_screenshot(folder + "/" + screenshot_name)
-
-    if path.exists(folder + "/" + screenshot_name) and path.getsize(folder + "/" + screenshot_name) < 14000:
-        remove(folder + "/" + screenshot_name)
-
-    #HTTPS
-    ss_url = "https://" + ip + ":" + str(port)
-    driver.get(ss_url)
-    screenshot_name = str(ip) + ":" + str(port) + "-https.png"
-    driver.save_screenshot(folder + "/" + screenshot_name)
-
-    if path.exists(folder + "/" + screenshot_name) and path.getsize(folder + "/" + screenshot_name) < 14000:
-        remove(folder + "/" + screenshot_name)
-
-    driver.quit()
 
 
 def ss(ip, port, folder):
@@ -97,7 +111,8 @@ def ss(ip, port, folder):
     driver_path = cwd + "/chromedriver"
     driver = webdriver.Chrome(executable_path=driver_path, options=options)
 
-    save_ss(driver, ip, port, folder)
+    ssl = 0
+    save_ss(driver, ip, port, folder, ssl)
 
 
 def menu():
@@ -107,8 +122,8 @@ def menu():
         parser.print_help()
         exit(1)
     args = parser.parse_args()
-    portcheck(args.IP, getenv(args.IP))
-    removeempty()
+    portcheck(args.IP, getenv(args.IP, folders))
+    removeempty(folders)
 
 
 menu()
