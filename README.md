@@ -1,11 +1,20 @@
 # Http-Headers-and-Web-Services-Screenshots ##
-It scans given IP range and takes screenshots if it's available. Also, it takes HTTP Header's from the server.
+It scans given IP address or Domain name and takes screenshots if it's available. 
+
+It supports Python3 now :)
 
 ## Requirements:
-+ pip install selenium
++ pip3 install selenium
++ pip3 install urllib3
 
-+ apt-get install phantomjs
+## Installation
+```
+git clone https://github.com/EmreOvunc/Http-Headers-and-Web-Services-Screenshots.git
+cd Http-Headers-and-Web-Services-Screenshots
+pip3 install -r requirements # or sudo pip3 install virtualenv && source myvenv/bin/activate
+python3 web_screenshot.py
+```
 
 ## Screenshot:
 
-![alt tag](https://emreovunc.com/projects/Web%20Services%20Headers-SS.png)
+![](https://emreovunc.com/images/web_service_screenshots.png)
