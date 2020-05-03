@@ -25,9 +25,10 @@ filterwarnings('ignore')
 folders = []
 
 def removeempty():
-	for folder in folders:
-		if len(listdir(folder) ) == 0:
-			rmdir(folder)
+    if len(folders) != 0:
+    	for folder in folders:
+    		if len(listdir(folder) ) == 0:
+    			rmdir(folder)
 
 
 def getenv(ip):
