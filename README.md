@@ -1,7 +1,7 @@
 # Http-Headers-and-Web-Services-Screenshots ##
 It scans given IP address or Domain name and takes screenshots if it's available. 
 
-It supports Python3 now :)
+It supports Python3 :) and cross-platforms now.
 
 ## Requirements:
 + pip3 install selenium
