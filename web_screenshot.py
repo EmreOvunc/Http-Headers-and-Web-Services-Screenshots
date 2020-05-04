@@ -11,6 +11,7 @@ from os         import remove
 from os         import listdir
 from sys        import argv
 from sys        import exit
+from sys        import platform
 from time       import sleep
 from socket     import socket
 from socket     import AF_INET
@@ -23,6 +24,7 @@ from warnings   import filterwarnings
 filterwarnings('ignore')
 
 folders = []
+
 
 def removeempty(folders):
     if len(folders) != 0:
@@ -78,7 +80,7 @@ def save_ss(driver, ip, port, folder, ssl):
             screenshot_name = str(ip) + ":" + str(port) + "-http.png"
             driver.save_screenshot(folder + "/" + screenshot_name)
 
-            if path.exists(folder + "/" + screenshot_name) and path.getsize(folder + "/" + screenshot_name) < 14000:
+            if path.exists(folder + "/" + screenshot_name) and path.getsize(folder + "/" + screenshot_name) < 12000:
                 remove(folder + "/" + screenshot_name)
 
             save_ss(driver, ip, port, folder, 1)
@@ -93,7 +95,7 @@ def save_ss(driver, ip, port, folder, ssl):
             screenshot_name = str(ip) + ":" + str(port) + "-https.png"
             driver.save_screenshot(folder + "/" + screenshot_name)
 
-            if path.exists(folder + "/" + screenshot_name) and path.getsize(folder + "/" + screenshot_name) < 14000:
+            if path.exists(folder + "/" + screenshot_name) and path.getsize(folder + "/" + screenshot_name) < 12000:
                 remove(folder + "/" + screenshot_name)
 
             driver.quit()
@@ -108,7 +110,14 @@ def ss(ip, port, folder):
     options.add_argument("--headless")
 
     cwd = getcwd()
-    driver_path = cwd + "/chromedriver"
+
+    if platform == "darwin":
+        driver_path = cwd + "/chromedrivers/macos_chromedriver"
+    elif platform == "linux":
+        driver_path = cwd + "/chromedrivers/linux_chromedriver"
+    else:
+        driver_path = cwd + "/chromedrivers/chromedriver.exe"
+    
     driver = webdriver.Chrome(executable_path=driver_path, options=options)
 
     ssl = 0
